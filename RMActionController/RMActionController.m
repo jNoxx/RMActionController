@@ -44,19 +44,6 @@
 
 #pragma mark - Interfaces
 
-@interface RMActionControllerAppearance: NSObject
-
-@property (nonatomic, strong) UIFont *titleFont;
-@property (nonatomic, strong) UIFont *subtitleFont;
-@property (nonatomic, strong) UIColor *titleColor;
-@property (nonatomic, strong) UIColor *subtitleColor;
-
-@end
-
-@interface RMActionControllerAppearance ()
-
-@end
-
 @interface RMActionController () <UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, assign, readwrite) RMActionControllerStyle style;
@@ -86,6 +73,10 @@
 #pragma mark - Class
 + (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style {
     return [self actionControllerWithStyle:style selectAction:nil andCancelAction:nil];
+}
+
++ (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style appearance:(RMActionControllerAppearance *)appearance {
+    return [self actionControllerWithStyle:style appearance:appearance title:nil message:nil selectAction:nil cancelAction:nil];
 }
 
 + (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style selectAction:(nullable RMAction *)selectAction andCancelAction:(nullable RMAction *)cancelAction {

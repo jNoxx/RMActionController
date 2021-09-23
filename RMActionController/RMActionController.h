@@ -31,6 +31,19 @@
 #import "RMGroupedAction.h"
 #import "RMScrollableGroupedAction.h"
 
+@interface RMActionControllerAppearance: NSObject
+
+@property (nonatomic, strong) UIFont *titleFont;
+@property (nonatomic, strong) UIFont *subtitleFont;
+@property (nonatomic, strong) UIColor *titleColor;
+@property (nonatomic, strong) UIColor *subtitleColor;
+
+@end
+
+@interface RMActionControllerAppearance ()
+
+@end
+
 /**
  *  RMActionControllerStyle is used to determine the display style of RMActionController. There are three styles available: White, black and the default style, which is white.
  */
@@ -69,6 +82,16 @@ typedef NS_ENUM(NSInteger, RMActionControllerStyle) {
  *  @return A new instance of RMActionController.
  */
 + (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style;
+
+/**
+ *  Returns a new instance of RMActionController.
+ *
+ *  @param style The action controller style for the new instance.
+ *  @param appearance The action controller appearance for the new instance.
+ *
+ *  @return A new instance of RMActionController.
+ */
++ (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style appearance:(RMActionControllerAppearance *)appearance;
 
 /**
  *  Returns a new instance of RMActionController.
