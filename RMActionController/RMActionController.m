@@ -44,9 +44,23 @@
 
 #pragma mark - Interfaces
 
+@interface RMActionControllerAppearance: NSObject
+
+@property (nonatomic, strong) UIFont *titleFont;
+@property (nonatomic, strong) UIFont *subtitleFont;
+@property (nonatomic, strong) UIColor *titleColor;
+@property (nonatomic, strong) UIColor *subtitleColor;
+
+@end
+
+@interface RMActionControllerAppearance ()
+
+@end
+
 @interface RMActionController () <UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, assign, readwrite) RMActionControllerStyle style;
+@property (nonatomic, strong) RMActionControllerAppearance *appearance;
 
 @property (nonatomic, strong) NSMutableArray *additionalActions;
 @property (nonatomic, strong) NSMutableArray *doneActions;
@@ -78,7 +92,7 @@
     return [self actionControllerWithStyle:style title:nil message:nil selectAction:selectAction andCancelAction:cancelAction];
 }
 
-+ (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style title:(nullable NSString *)aTitle message:(nullable NSString *)aMessage selectAction:(nullable RMAction *)selectAction andCancelAction:(nullable RMAction *)cancelAction {
++ (nonnull instancetype)actionControllerWithStyle:(RMActionControllerStyle)style appearance:(RMActionControllerAppearance *)appearance title:(nullable NSString *)aTitle message:(nullable NSString *)aMessage selectAction:(nullable RMAction *)selectAction andCancelAction:(nullable RMAction *)cancelAction {
     return [[self alloc] initWithStyle:style title:aTitle message:aMessage selectAction:selectAction andCancelAction:cancelAction];
 }
 
@@ -99,7 +113,7 @@
     return self;
 }
 
-- (instancetype)initWithStyle:(RMActionControllerStyle)aStyle title:(NSString *)aTitle message:(NSString *)aMessage selectAction:(RMAction *)selectAction andCancelAction:(RMAction *)cancelAction {
+- (instancetype)initWithStyle:(RMActionControllerStyle)aStyle appearance:(RMActionControllerAppearance *)appearance title:(NSString *)aTitle message:(NSString *)aMessage selectAction:(RMAction *)selectAction andCancelAction:(RMAction *)cancelAction {
     self = [super initWithNibName:nil bundle:nil];
     if(self) {
         [self setup];
@@ -107,16 +121,17 @@
         self.style = aStyle;
         self.title = aTitle;
         self.message = aMessage;
+        self.appearance = appearance;
         
-        if(selectAction && cancelAction) {
+        if (selectAction && cancelAction) {
             RMGroupedAction *action = [RMGroupedAction actionWithStyle:RMActionStyleDefault andActions:@[cancelAction, selectAction]];
             [self addAction:action];
         } else {
-            if(cancelAction) {
+            if (cancelAction) {
                 [self addAction:cancelAction];
             }
             
-            if(selectAction) {
+            if (selectAction) {
                 [self addAction:selectAction];
             }
         }
@@ -226,6 +241,11 @@
     self.headerMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.headerMessageLabel.textAlignment = NSTextAlignmentCenter;
     self.headerMessageLabel.numberOfLines = 0;
+    
+    if (self.appearance) {
+        self.headerTitleLabel.textColor = self.appearance.titleColor;
+        self.headerMessageLabel.textColor = self.appearance.subtitleColor;
+    }
     
     [self updateFont];
     
@@ -623,6 +643,12 @@
     
     descriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
     self.headerTitleLabel.font = [UIFont fontWithDescriptor:descriptor size:descriptor.pointSize];
+    
+    // If appearance.
+    if (self.appearance) {
+        self.headerTitleLabel.font = self.appearance.titleFont;
+        self.headerMessageLabel.font = self.appearance.subtitleFont;
+    }
 }
 
 - (id)bottomItem {

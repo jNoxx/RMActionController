@@ -100,6 +100,7 @@ typedef NS_ENUM(NSInteger, RMActionControllerStyle) {
  *  Overwrite this method when subclassing RMActionController. Initialize the custom content view and set the content view of the RMActionController to your content view in this method.
  *
  *  @param aStyle        The action controller style for the new instance.
+ *  @param appearance       The action controller fonts & colors for the new instance.
  *  @param aTitle       A title for the RMActionController
  *  @param aMessage     A message explaining why the RMActionController is shown.
  *  @param selectAction An instance of RMAction whos handler is called when the select button is tapped.
@@ -107,7 +108,8 @@ typedef NS_ENUM(NSInteger, RMActionControllerStyle) {
  *
  *  @return An initialized of RMActionController.
  */
-- (nonnull instancetype)initWithStyle:(RMActionControllerStyle)aStyle title:(nullable NSString *)aTitle message:(nullable NSString *)aMessage selectAction:(nullable RMAction<T> *)selectAction andCancelAction:(nullable RMAction<T> *)cancelAction NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithStyle:(RMActionControllerStyle)aStyle appearance:(RMActionControllerAppearance *)appearance title:(nullable NSString *)aTitle message:(nullable NSString *)aMessage selectAction:(nullable RMAction<T> *)selectAction andCancelAction:(nullable RMAction<T> *)cancelAction NS_DESIGNATED_INITIALIZER;
+
 
 /// @name User Interface
 #pragma mark - User Interface
