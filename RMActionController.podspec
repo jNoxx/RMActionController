@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name                 = "RMActionController"
+  s.name                 = "RMActionControllerjNoxx"
   s.version              = "1.3.1"
   s.platform             = :ios, '8.0'
   s.summary              = "This is an iOS control for presenting any UIView in an UIAlertController like manner"
